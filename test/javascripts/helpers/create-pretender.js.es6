@@ -42,7 +42,7 @@ export default function() {
 
     this.get('/admin/plugins', () => response({ plugins: [] }));
 
-    this.get('/composer-messages', () => response([]));
+    this.get('/composer_messages', () => response({ composer_messages: [] }));
 
     this.get("/latest.json", () => {
       const json = fixturesByUrl['/latest.json'];
@@ -168,6 +168,18 @@ export default function() {
                                            title: data.title,
                                            fancy_title: data.title,
                                            slug: request.params.slug } });
+    });
+
+    this.get("/groups/discourse/topics.json", () => {
+      return response(200, fixturesByUrl['/groups/discourse/posts.json']);
+    });
+
+    this.get("/groups/discourse/mentions.json", () => {
+      return response(200, fixturesByUrl['/groups/discourse/posts.json']);
+    });
+
+    this.get("/groups/discourse/messages.json", () => {
+      return response(200, fixturesByUrl['/groups/discourse/posts.json']);
     });
 
     this.get('/t/:topic_id/posts.json', request => {

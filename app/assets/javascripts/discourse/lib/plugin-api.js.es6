@@ -9,6 +9,8 @@ import { createWidget, decorateWidget, changeSetting } from 'discourse/widgets/w
 import { onPageChange } from 'discourse/lib/page-tracker';
 import { preventCloak } from 'discourse/widgets/post-stream';
 import { h } from 'virtual-dom';
+import { addFlagProperty } from 'discourse/components/site-header';
+import { addPopupMenuOptionsCallback } from 'discourse/controllers/composer';
 
 class PluginApi {
   constructor(version, container) {
@@ -48,7 +50,7 @@ class PluginApi {
 
     if (!opts.onlyStream) {
       decorate(ComposerEditor, 'previewRefreshed', callback);
-      decorate(this.container.lookupFactory('view:user-stream'), 'didInsertElement', callback);
+      decorate(this.container.lookupFactory('component:user-stream'), 'didInsertElement', callback);
     }
   }
 
@@ -224,6 +226,26 @@ class PluginApi {
   }
 
   /**
+   * Add a new button in the options popup menu.
+   *
+   * Example:
+   *
+   * ```
+   * api.addToolbarPopupMenuOptionsCallback(() => {
+   *  return {
+   *    action: 'toggleWhisper',
+   *    icon: 'eye-slash',
+   *    label: 'composer.toggle_whisper',
+   *    condition: "canWhisper"
+   *  };
+   * });
+   * ```
+  **/
+  addToolbarPopupMenuOptionsCallback(callback) {
+    addPopupMenuOptionsCallback(callback);
+  }
+
+  /**
    * A hook that is called when the post stream is removed from the DOM.
    * This advanced hook should be used if you end up wiring up any
    * events that need to be torn down when the user leaves the topic
@@ -284,11 +306,37 @@ class PluginApi {
   createWidget(name, args) {
     return createWidget(name, args);
   }
+
+  /**
+   * Adds a property that can be summed for calculating the flag counter
+   **/
+  addFlagProperty(property) {
+    return addFlagProperty(property);
+  }
+
+  /**
+   * Adds a pluralization to the store
+   *
+   * Example:
+   *
+   * ```javascript
+   * api.addStorePluralization('mouse', 'mice');
+   * ```
+   *
+   * ```javascript
+   * this.store.find('mouse');
+   * ```
+   * will issue a request to `/mice.json`
+   **/
+  addStorePluralization(thing, plural) {
+    this.container.lookup("store:main").addPluralization(thing, plural);
+  }
 }
 
 let _pluginv01;
 function getPluginApi(version) {
-  if (version === "0.1" || version === "0.2" || version === "0.3") {
+  version = parseFloat(version);
+  if (version <= 0.4) {
     if (!_pluginv01) {
       _pluginv01 = new PluginApi(version, Discourse.__container__);
     }
@@ -299,7 +347,7 @@ function getPluginApi(version) {
 }
 
 /**
- * withPluginApi(version, apiCode, noApi)
+ * withPluginApi(version, apiCodeCallback, opts)
  *
  * Helper to version our client side plugin API. Pass the version of the API that your
  * plugin is coded against. If that API is available, the `apiCodeCallback` function will

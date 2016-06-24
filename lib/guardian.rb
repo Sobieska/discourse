@@ -5,6 +5,7 @@ require_dependency 'guardian/topic_guardian'
 require_dependency 'guardian/user_guardian'
 require_dependency 'guardian/post_revision_guardian'
 require_dependency 'guardian/group_guardian'
+require_dependency 'guardian/tag_guardian'
 
 # The guardian is responsible for confirming access to various site resources and operations
 class Guardian
@@ -15,6 +16,7 @@ class Guardian
   include UserGuardian
   include PostRevisionGuardian
   include GroupGuardian
+  include TagGuardian
 
   class AnonymousUser
     def blank?; true; end
@@ -23,6 +25,7 @@ class Guardian
     def moderator?; false; end
     def approved?; false; end
     def staged?; false; end
+    def blocked?; false; end
     def secure_category_ids; []; end
     def topic_create_allowed_category_ids; []; end
     def has_trust_level?(level); false; end
@@ -58,6 +61,10 @@ class Guardian
 
   def is_moderator?
     @user.moderator?
+  end
+
+  def is_blocked?
+    @user.blocked?
   end
 
   def is_developer?
@@ -110,7 +117,7 @@ class Guardian
   end
 
   def can_moderate?(obj)
-    obj && authenticated? && (is_staff? || (obj.is_a?(Topic) && @user.has_trust_level?(TrustLevel[4])))
+    obj && authenticated? && !is_blocked? && (is_staff? || (obj.is_a?(Topic) && @user.has_trust_level?(TrustLevel[4])))
   end
   alias :can_move_posts? :can_moderate?
   alias :can_see_flags? :can_moderate?
@@ -122,7 +129,11 @@ class Guardian
   end
 
   def can_see_group?(group)
-    group.present? && (is_admin? || group.visible?)
+    return false if group.blank?
+    return true if is_admin? || group.visible?
+    return false if user.blank?
+
+    group.group_users.where(user_id: user.id).exists?
   end
 
 
@@ -240,6 +251,10 @@ class Guardian
     user.staff?
   end
 
+  def can_resend_all_invites?(user)
+    user.staff?
+  end
+
   def can_see_private_messages?(user_id)
     is_admin? || (authenticated? && @user.id == user_id)
   end
@@ -259,7 +274,7 @@ class Guardian
     # Can't send PMs to suspended users
     (is_staff? || target.is_a?(Group) || !target.suspended?) &&
     # Blocked users can only send PM to staff
-    (!@user.blocked? || target.staff?)
+    (!is_blocked? || target.staff?)
   end
 
   def can_see_emails?
@@ -267,10 +282,12 @@ class Guardian
   end
 
   def can_export_entity?(entity_type)
+    return false unless @user
     return true if is_staff?
     return false if entity_type == "admin"
     UserExport.where(user_id: @user.id, created_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)).count == 0
   end
+
 
   private
 

@@ -46,11 +46,19 @@ class Category < ActiveRecord::Base
 
   after_update :rename_category_definition, if: :name_changed?
 
+  after_create :delete_category_permalink
+  after_update :create_category_permalink, if: :slug_changed?
+
   after_save :publish_discourse_stylesheet
 
   has_one :category_search_data
   belongs_to :parent_category, class_name: 'Category'
   has_many :subcategories, class_name: 'Category', foreign_key: 'parent_category_id'
+
+  has_many :category_tags, dependent: :destroy
+  has_many :tags, through: :category_tags
+  has_many :category_tag_groups, dependent: :destroy
+  has_many :tag_groups, through: :category_tag_groups
 
   scope :latest, ->{ order('topic_count desc') }
 
@@ -90,7 +98,7 @@ class Category < ActiveRecord::Base
   end
 
   def self.scoped_to_permissions(guardian, permission_types)
-    if guardian && guardian.is_staff?
+    if guardian && guardian.is_admin?
       all
     elsif !guardian || guardian.anonymous?
       if permission_types.include?(:readonly)
@@ -309,6 +317,14 @@ SQL
     end
   end
 
+  def allowed_tags=(tag_names_arg)
+    DiscourseTagging.add_or_create_tags_by_name(self, tag_names_arg)
+  end
+
+  def allowed_tag_groups=(group_names)
+    self.tag_groups = TagGroup.where(name: group_names).all.to_a
+  end
+
   def downcase_email
     self.email_in = (email_in || "").strip.downcase.presence
   end
@@ -445,6 +461,24 @@ SQL
     if topic.title == I18n.t("category.topic_prefix", category: old_name)
       topic.update_column(:title, I18n.t("category.topic_prefix", category: name))
     end
+  end
+
+  def create_category_permalink
+    old_slug = changed_attributes["slug"]
+    if self.parent_category
+      Permalink.create(url: "c/#{self.parent_category.slug}/#{old_slug}", category_id: id)
+    else
+      Permalink.create(url: "c/#{old_slug}", category_id: id)
+    end
+  end
+
+  def delete_category_permalink
+    if self.parent_category
+      permalink = Permalink.find_by_url("c/#{self.parent_category.slug}/#{slug}")
+    else
+      permalink = Permalink.find_by_url("c/#{slug}")
+    end
+    permalink.destroy if permalink
   end
 
   def publish_discourse_stylesheet

@@ -269,7 +269,6 @@ pl_PL:
     enable: "Włącz"
     disable: "Wyłącz"
     undo: "Cofnij"
-    revert: "Przywróć"
     failed: "Niepowodzenie"
     switch_to_anon: "Tryb anonimowy"
     switch_from_anon: "Zakończ tryb anonimowy"
@@ -324,8 +323,6 @@ pl_PL:
       title: "Użytkownicy"
       likes_given: "Oddane"
       likes_received: "Otrzymane"
-      topics_entered: "Odwiedzone"
-      topics_entered_long: "Odwiedzone tematy"
       time_read: "Czas"
       topic_count: "Tematy"
       topic_count_long: "Utworzone tematy"
@@ -482,7 +479,6 @@ pl_PL:
       suspended_notice: "ten użytkownik jest zawieszony do {{date}}."
       suspended_reason: "Powód: "
       github_profile: "Github"
-      mailing_list_mode: "Wysyłaj e-mail z każdym nowym wpisem (o ile nie wyciszysz kategorii lub tematu)."
       watched_categories: "Obserwowane"
       watched_categories_instructions: "Będziesz automatycznie śledzić wszystkie nowe tematy w tych kategoriach. Będziesz otrzymywać powiadomienie o każdym nowym wpisie i temacie, a liczba nieprzeczytanych i nowych wpisów będzie wyświetlana obok tytułów na liście tematów. "
       tracked_categories: "Śledzone"
@@ -524,10 +520,8 @@ pl_PL:
         set_password: "Ustaw hasło"
       change_about:
         title: "Zmień O mnie"
-        error: "Wystąpił błąd podczas zmiany tej wartości."
       change_username:
         title: "Zmień nazwę użytkownika"
-        confirm: "Jeżeli zmienisz swoją nazwę użytkownika, wszystkie stare cytaty twoich wpisów oraz wzmianki przez @nazwę przestaną działać. Czy na pewno tego chcesz?"
         taken: "Przykro nam, ale ta nazwa jest zajęta."
         error: "Podczas zmiany twojej nazwy użytkownika wystąpił błąd."
         invalid: "Ta nazwa jest niepoprawna. Powinna zawierać jedynie liczby i litery."
@@ -607,7 +601,6 @@ pl_PL:
         always: "zawsze"
         never: "nigdy"
       email_digests:
-        title: "Gdy nie odwiedzam strony, wysyłaj e-mail z podsumowaniem aktywności:"
         every_30_minutes: "co 30 minut"
         every_hour: "co godzinę"
         daily: "codziennie"
@@ -896,7 +889,6 @@ pl_PL:
       link_description: "wprowadź tutaj opis odnośnika"
       link_dialog_title: "Wstaw odnośnik"
       link_optional_text: "opcjonalny tytuł"
-      link_placeholder: "http://example.com \"opcjonalny tekst\""
       quote_title: "Cytat"
       quote_text: "Cytat"
       code_title: "Tekst sformatowany"
@@ -1007,7 +999,6 @@ pl_PL:
       post_format: "#{{post_number}} za {{username}}"
       context:
         user: "Szukaj wpisów @{{username}}"
-        category: "Szukaj w kategorii \"{{category}}\""
         topic: "Szukaj w tym temacie"
         private_messages: "Wyszukiwanie wiadomości"
     hamburger_menu: "przejdź do innej listy lub kategorii"
@@ -1366,10 +1357,7 @@ pl_PL:
         create: "Przepraszamy, podczas tworzenia twojego wpisu wystąpił błąd. Spróbuj ponownie."
         edit: "Przepraszamy, podczas edytowania twojego wpisu wystąpił błąd. Spróbuj ponownie."
         upload: "Przepraszamy, wystąpił błąd podczas wczytywania Twojego pliku. Proszę, spróbuj ponownie."
-        attachment_too_large: "Przepraszamy, ale plik, który chcesz wgrać jest za duży (maksymalny rozmiar to {{max_size_kb}}KB)."
-        file_too_large: "Przepraszamy, plik który chcesz wczytać jest zbyt duży (maximum to {{max_size_kb}}kb)"
         too_many_uploads: "Przepraszamy, ale możesz wgrać tylko jeden plik naraz."
-        too_many_dragged_and_dropped_files: "Przepraszamy, możesz wczytać maksymalnie 10 plików naraz."
         upload_not_authorized: "Przepraszamy, ale plik który chcesz wgrać jest niedozwolony (dozwolone rozszerzenia: {{authorized_extensions}})."
         image_upload_not_allowed_for_new_user: "Przepraszamy, ale nowi użytkownicy nie mogą wgrywać obrazów."
         attachment_upload_not_allowed_for_new_user: "Przepraszamy, ale nowi użytkownicy nie mogą wgrywać załączników."
@@ -1826,7 +1814,6 @@ pl_PL:
           30_days_ago: "30 dni temu"
           all: "Wszystkie"
           view_table: "tabela"
-          view_chart: "wykres słupkowy"
           refresh_report: "Odśwież raport"
           start_date: "Data początkowa"
           end_date: "Data końcowa"
@@ -1965,14 +1952,6 @@ pl_PL:
           backups: "Kopie zapasowe"
           logs: "Logi"
         none: "Brak kopii zapasowych."
-        read_only:
-          enable:
-            title: "Włącz tryb tylko do odczytu"
-            label: "Włącz tryb tylko do odczytu"
-            confirm: "Czy na pewno chcesz włączyć tryb tylko do odczytu?"
-          disable:
-            title: "Wyłącz tryb tylko do odczytu"
-            label: "Wyłącz tryb tylko do odczytu"
         logs:
           none: "Póki co brak logów…"
         columns:
@@ -2079,7 +2058,6 @@ pl_PL:
           delete_confirm: "Usunąć ten schemat kolorów?"
           undo: "cofnij"
           undo_title: "Cofnij zmiany tego koloru od ostatniego zapisu"
-          revert: "przywróć"
           revert_title: "Zresetuj  ten kolor do wartości domyślnej."
           primary:
             name: 'podstawowy'
@@ -2106,7 +2084,6 @@ pl_PL:
             name: 'niebezpieczeństwo'
             description: 'Kolor podświetlenia dla akcji takich jak usuwanie wpisów i tematów.'
           success:
-            name: 'sukces'
             description: 'Używany do oznaczania operacji zakończonych sukcesem.'
           love:
             name: 'polubienie'

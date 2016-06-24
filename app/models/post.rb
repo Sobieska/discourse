@@ -40,6 +40,8 @@ class Post < ActiveRecord::Base
   has_one :post_search_data
   has_one :post_stat
 
+  has_one :incoming_email
+
   has_many :post_details
 
   has_many :post_revisions
@@ -63,6 +65,14 @@ class Post < ActiveRecord::Base
   scope :with_topic_subtype, ->(subtype) { joins(:topic).where('topics.subtype = ?', subtype) }
   scope :visible, -> { joins(:topic).where('topics.visible = true').where(hidden: false) }
   scope :secured, lambda { |guardian| where('posts.post_type in (?)', Topic.visible_post_types(guardian && guardian.user))}
+  scope :for_mailing_list, ->(user, since) {
+     created_since(since)
+    .joins(:topic)
+    .where(topic: Topic.for_digest(user, 100.years.ago)) # we want all topics with new content, regardless when they were created
+    .order('posts.created_at ASC')
+  }
+  scope :mailing_list_new_topics, ->(user, since) { for_mailing_list(user, since).where('topics.created_at > ?', since) }
+  scope :mailing_list_updates,    ->(user, since) { for_mailing_list(user, since).where('topics.created_at <= ?', since) }
 
   delegate :username, to: :user
 
@@ -99,7 +109,7 @@ class Post < ActiveRecord::Base
   end
 
   def limit_posts_per_day
-    if user && user.first_day_user? && post_number && post_number > 1
+    if user && user.new_user_posting_on_first_day? && post_number && post_number > 1
       RateLimiter.new(user, "first-day-replies-per-day", SiteSetting.max_replies_in_first_day, 1.day.to_i)
     end
   end
@@ -227,7 +237,6 @@ class Post < ActiveRecord::Base
   end
 
   def whitelisted_spam_hosts
-
     hosts = SiteSetting
               .white_listed_spam_host_domains
               .split('|')
@@ -253,7 +262,8 @@ class Post < ActiveRecord::Base
 
     TopicLink.where(domain: hosts.keys, user_id: acting_user.id)
              .group(:domain, :post_id)
-             .count.each_key do |tuple|
+             .count
+             .each_key do |tuple|
       domain = tuple[0]
       hosts[domain] = (hosts[domain] || 0) + 1
     end
@@ -263,13 +273,9 @@ class Post < ActiveRecord::Base
 
   # Prevent new users from posting the same hosts too many times.
   def has_host_spam?
-    return false if acting_user.present? && acting_user.has_trust_level?(TrustLevel[1])
+    return false if acting_user.present? && (acting_user.staged? || acting_user.has_trust_level?(TrustLevel[1]))
 
-    total_hosts_usage.each do |_, count|
-      return true if count >= SiteSetting.newuser_spam_host_threshold
-    end
-
-    false
+    total_hosts_usage.values.any? { |count| count >= SiteSetting.newuser_spam_host_threshold }
   end
 
   def archetype
@@ -377,6 +383,10 @@ class Post < ActiveRecord::Base
     else
       "/404"
     end
+  end
+
+  def unsubscribe_url(user)
+    "#{Discourse.base_url}/email/unsubscribe/#{UnsubscribeKey.create_key_for(user, self)}"
   end
 
   def self.url(slug, topic_id, post_number)
@@ -555,8 +565,8 @@ class Post < ActiveRecord::Base
     result.group('date(posts.created_at)').order('date(posts.created_at)').count
   end
 
-  def self.private_messages_count_per_day(since_days_ago, topic_subtype)
-    private_posts.with_topic_subtype(topic_subtype).where('posts.created_at > ?', since_days_ago.days.ago).group('date(posts.created_at)').order('date(posts.created_at)').count
+  def self.private_messages_count_per_day(start_date, end_date, topic_subtype)
+    private_posts.with_topic_subtype(topic_subtype).where('posts.created_at >= ? AND posts.created_at <= ?', start_date, end_date).group('date(posts.created_at)').order('date(posts.created_at)').count
   end
 
   def reply_history(max_replies=100, guardian=nil)

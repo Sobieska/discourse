@@ -44,7 +44,7 @@ PLUGIN_API_JS
       name = node["name"] || node["data-template-name"] || "broken"
       precompiled =
         if name =~ /\.raw$/
-          "Discourse.EmberCompatHandlebars.template(#{Barber::EmberCompatPrecompiler.compile(node.inner_html)})"
+          "Discourse.EmberCompatHandlebars.template(#{Barber::Precompiler.compile(node.inner_html)})"
         else
           "Ember.HTMLBars.template(#{Barber::Ember::Precompiler.compile(node.inner_html)})"
         end
@@ -59,7 +59,7 @@ SCRIPT
         begin
           code = transpile(node.inner_html, node['version'])
           node.replace("<script>#{code}</script>")
-        rescue Tilt::ES6ModuleTranspilerTemplate::JavaScriptError => ex
+        rescue MiniRacer::RuntimeError => ex
           node.replace("<script type='text/discourse-js-error'>#{ex.message}</script>")
         end
       end

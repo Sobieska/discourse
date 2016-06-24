@@ -16,6 +16,7 @@ export default RestModel.extend({
   loadingFilter: null,
   stagingPost: null,
   postsWithPlaceholders: null,
+  timelineLookup: null,
 
   init() {
     this._identityMap = {};
@@ -33,6 +34,7 @@ export default RestModel.extend({
       loadingBelow: false,
       loadingFilter: false,
       stagingPost: false,
+      timelineLookup: []
     });
   },
 
@@ -40,7 +42,7 @@ export default RestModel.extend({
   notLoading: Ember.computed.not('loading'),
   filteredPostsCount: Ember.computed.alias("stream.length"),
 
-  @computed('posts.@each')
+  @computed('posts.[]')
   hasPosts() {
     return this.get('posts.length') > 0;
   },
@@ -53,7 +55,7 @@ export default RestModel.extend({
   canAppendMore: Ember.computed.and('notLoading', 'hasPosts', 'lastPostNotLoaded'),
   canPrependMore: Ember.computed.and('notLoading', 'hasPosts', 'firstPostNotLoaded'),
 
-  @computed('hasLoadedData', 'firstPostId', 'posts.@each')
+  @computed('hasLoadedData', 'firstPostId', 'posts.[]')
   firstPostPresent(hasLoadedData, firstPostId) {
     if (!hasLoadedData) { return false; }
     return !!this.get('posts').findProperty('id', firstPostId);
@@ -101,7 +103,7 @@ export default RestModel.extend({
     Returns the window of posts above the current set in the stream, bound to the top of the stream.
     This is the collection we'll ask for when scrolling upwards.
   **/
-  @computed('posts.@each', 'stream.@each')
+  @computed('posts.[]', 'stream.[]')
   previousWindow() {
     // If we can't find the last post loaded, bail
     const firstPost = _.first(this.get('posts'));
@@ -121,7 +123,7 @@ export default RestModel.extend({
     Returns the window of posts below the current set in the stream, bound by the bottom of the
     stream. This is the collection we use when scrolling downwards.
   **/
-  @computed('posts.lastObject', 'stream.@each')
+  @computed('posts.lastObject', 'stream.[]')
   nextWindow(lastLoadedPost) {
     // If we can't find the last post loaded, bail
     if (!lastLoadedPost) { return []; }
@@ -194,6 +196,11 @@ export default RestModel.extend({
     opts = opts || {};
     opts.nearPost = parseInt(opts.nearPost, 10);
 
+    if (opts.cancelSummary) {
+      this.set('summary', false);
+      delete opts.cancelSummary;
+    }
+
     const topic = this.get('topic');
 
     // Do we already have the post in our list of posts? Jump there.
@@ -212,7 +219,7 @@ export default RestModel.extend({
     // Request a topicView
     return loadTopicView(topic, opts).then(json => {
       this.updateFromJson(json.post_stream);
-      this.setProperties({ loadingFilter: false, loaded: true });
+      this.setProperties({ loadingFilter: false, timelineLookup: json.timeline_lookup, loaded: true });
     }).catch(result => {
       this.errorLoading(result);
       throw result;
@@ -607,6 +614,27 @@ export default RestModel.extend({
     return closest;
   },
 
+  closestDaysAgoFor(postNumber) {
+    const timelineLookup = this.get('timelineLookup') || [];
+
+    let low = 0, high = timelineLookup.length - 1;
+    while (low <= high) {
+      const mid = Math.floor(low + ((high - low) / 2));
+      const midValue = timelineLookup[mid][0];
+
+      if (midValue > postNumber) {
+        high = mid - 1;
+      } else if (midValue < postNumber) {
+        low = mid + 1;
+      } else {
+        return timelineLookup[mid][1];
+      }
+    }
+
+    const val = timelineLookup[high] || timelineLookup[low];
+    if (val) { return val[1]; }
+  },
+
   // Find a postId for a postNumber, respecting gaps
   findPostIdForPostNumber(postNumber) {
     const stream = this.get('stream'),
@@ -668,6 +696,7 @@ export default RestModel.extend({
       const postNumber = post.get('post_number');
       if (postNumber && postNumber > (this.get('topic.highest_post_number') || 0)) {
         this.set('topic.highest_post_number', postNumber);
+        this.set('topic.last_posted_at', post.get('created_at'));
       }
 
       if (existing) {

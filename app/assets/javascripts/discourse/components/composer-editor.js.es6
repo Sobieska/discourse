@@ -2,6 +2,7 @@ import userSearch from 'discourse/lib/user-search';
 import { default as computed, on } from 'ember-addons/ember-computed-decorators';
 import { linkSeenMentions, fetchUnseenMentions } from 'discourse/lib/link-mentions';
 import { linkSeenCategoryHashtags, fetchUnseenCategoryHashtags } from 'discourse/lib/link-category-hashtags';
+import { fetchUnseenTagHashtags, linkSeenTagHashtags } from 'discourse/lib/link-tag-hashtag';
 
 export default Ember.Component.extend({
   classNames: ['wmd-controls'],
@@ -25,6 +26,22 @@ export default Ember.Component.extend({
   @computed('showPreview')
   toggleText: function(showPreview) {
     return showPreview ? I18n.t('composer.hide_preview') : I18n.t('composer.show_preview');
+  },
+
+  _renderUnseenTagHashtags($preview, unseen) {
+    fetchUnseenTagHashtags(unseen).then(() => {
+      linkSeenTagHashtags($preview);
+    });
+  },
+
+  @on('previewRefreshed')
+  paintTagHashtags($preview) {
+    if (!this.siteSettings.tagging_enabled) { return; }
+
+    const unseenTagHashtags = linkSeenTagHashtags($preview);
+    if (unseenTagHashtags.length) {
+      Ember.run.debounce(this, this._renderUnseenTagHashtags, $preview, unseenTagHashtags, 500);
+    }
   },
 
   @computed
@@ -65,7 +82,7 @@ export default Ember.Component.extend({
     }
 
     this._bindUploadTarget();
-    this.appEvents.trigger('composer:opened');
+    this.appEvents.trigger('composer:will-open');
   },
 
   @computed('composer.reply', 'composer.replyLength', 'composer.missingReplyCharacters', 'composer.minimumPostLength', 'lastValidatedAt')
@@ -324,6 +341,7 @@ export default Ember.Component.extend({
 
   @on('willDestroyElement')
   _composerClosed() {
+    this.appEvents.trigger('composer:will-close');
     Ember.run.next(() => {
       $('#main-outlet').css('padding-bottom', 0);
       // need to wait a bit for the "slide down" transition of the composer
@@ -344,7 +362,7 @@ export default Ember.Component.extend({
       this._resetUpload(true);
     },
 
-    showOptions() {
+    showOptions(toolbarEvent) {
       // long term we want some smart positioning algorithm in popup-menu
       // the problem is that positioning in a fixed panel is a nightmare
       // cause offsetParent can end up returning a fixed element and then
@@ -370,9 +388,11 @@ export default Ember.Component.extend({
         left = replyWidth - popupWidth - 40;
       }
 
-      this.sendAction('showOptions', { position: "absolute",
-                                       left: left,
-                                       top: top });
+      const selected = toolbarEvent.selected;
+      toolbarEvent.selectText(selected.start, selected.end - selected.start);
+
+      this.sendAction('showOptions', toolbarEvent,
+        { position: "absolute", left, top });
     },
 
     showUploadModal(toolbarEvent) {
@@ -402,7 +422,7 @@ export default Ember.Component.extend({
         sendAction: 'showUploadModal'
       });
 
-      if (this.get('canWhisper')) {
+      if (this.get("showPopupMenu")) {
         toolbar.addButton({
           id: 'options',
           group: 'extras',
@@ -441,6 +461,7 @@ export default Ember.Component.extend({
       // Paint oneboxes
       $('a.onebox', $preview).each((i, e) => Discourse.Onebox.load(e, refresh));
       this.trigger('previewRefreshed', $preview);
+      this.sendAction('afterRefresh', $preview);
     },
   }
 });

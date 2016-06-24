@@ -20,6 +20,7 @@ class TopicQuery
                      topic_ids
                      visible
                      category
+                     tags
                      order
                      ascending
                      no_subcategories
@@ -308,6 +309,7 @@ class TopicQuery
     result = default_results(options)
     result = remove_muted_topics(result, @user) unless options && options[:state] == "muted".freeze
     result = remove_muted_categories(result, @user, exclude: options[:category])
+    result = remove_muted_tags(result, @user, options)
 
     # plugins can remove topics here:
     self.class.results_filter_callbacks.each do |filter_callback|
@@ -334,6 +336,7 @@ class TopicQuery
     result = TopicQuery.new_filter(default_results(options.reverse_merge(:unordered => true)), @user.user_option.treat_as_new_topic_start_date)
     result = remove_muted_topics(result, @user)
     result = remove_muted_categories(result, @user, exclude: options[:category])
+    result = remove_muted_tags(result, @user, options)
 
     self.class.results_filter_callbacks.each do |filter_callback|
       result = filter_callback.call(:new, result, @user, options)
@@ -372,7 +375,11 @@ class TopicQuery
 
       result = result.limit(options[:per_page]) unless options[:limit] == false
       result = result.visible if options[:visible] || @user.nil? || @user.regular?
-      result = result.offset(options[:page].to_i * options[:per_page]) if options[:page]
+
+      if options[:page]
+        offset = options[:page].to_i * options[:per_page]
+        result = result.offset(offset) if offset > 0
+      end
       result
     end
 
@@ -445,6 +452,24 @@ class TopicQuery
         result = result.references(:categories)
       end
 
+      # ALL TAGS: something like this?
+      # Topic.joins(:tags).where('tags.name in (?)', @options[:tags]).group('topic_id').having('count(*)=?', @options[:tags].size).select('topic_id')
+
+      if SiteSetting.tagging_enabled
+        result = result.preload(:tags)
+
+        if @options[:tags] && @options[:tags].size > 0
+          result = result.joins(:tags)
+
+          # ANY of the given tags:
+          if @options[:tags][0].is_a?(Integer)
+            result = result.where("tags.id in (?)", @options[:tags])
+          else
+            result = result.where("tags.name in (?)", @options[:tags])
+          end
+        end
+      end
+
       result = apply_ordering(result, options)
       result = result.listable_topics.includes(:category)
 
@@ -461,7 +486,11 @@ class TopicQuery
 
       result = result.visible if options[:visible]
       result = result.where.not(topics: {id: options[:except_topic_ids]}).references(:topics) if options[:except_topic_ids]
-      result = result.offset(options[:page].to_i * options[:per_page]) if options[:page]
+
+      if options[:page]
+        offset = options[:page].to_i * options[:per_page]
+        result = result.offset(offset) if offset > 0
+      end
 
       if options[:topic_ids]
         result = result.where('topics.id in (?)', options[:topic_ids]).references(:topics)
@@ -561,6 +590,36 @@ class TopicQuery
       end
 
       list
+    end
+    def remove_muted_tags(list, user, opts=nil)
+      if user.nil? || !SiteSetting.tagging_enabled || !SiteSetting.remove_muted_tags_from_latest
+        list
+      else
+        muted_tags = DiscourseTagging.muted_tags(user)
+        if muted_tags.empty?
+          list
+        else
+          showing_tag = if opts[:filter]
+            f = opts[:filter].split('/')
+            f[0] == 'tags' ? f[1] : nil
+          else
+            nil
+          end
+
+          if muted_tags.include?(showing_tag)
+            list # if viewing the topic list for a muted tag, show all the topics
+          else
+            arr = muted_tags.map{ |z| "'#{z}'" }.join(',')
+            list.where("EXISTS (
+       SELECT 1
+         FROM topic_custom_fields tcf
+        WHERE tcf.name = 'tags'
+          AND tcf.value NOT IN (#{arr})
+          AND tcf.topic_id = topics.id
+       ) OR NOT EXISTS (select 1 from topic_custom_fields tcf where tcf.name = 'tags' and tcf.topic_id = topics.id)")
+          end
+        end
+      end
     end
 
     def new_messages(params)

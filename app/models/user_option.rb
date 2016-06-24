@@ -24,6 +24,7 @@ class UserOption < ActiveRecord::Base
   def set_defaults
     self.email_always = SiteSetting.default_email_always
     self.mailing_list_mode = SiteSetting.default_email_mailing_list_mode
+    self.mailing_list_mode_frequency = SiteSetting.default_email_mailing_list_mode_frequency
     self.email_direct = SiteSetting.default_email_direct
     self.automatically_unpin_topics = SiteSetting.default_topics_automatic_unpin
     self.email_private_messages = SiteSetting.default_email_private_messages
@@ -40,7 +41,6 @@ class UserOption < ActiveRecord::Base
     self.auto_track_topics_after_msecs = SiteSetting.default_other_auto_track_topics_after_msecs
 
     self.like_notification_frequency = SiteSetting.default_other_like_notification_frequency
-
 
     if SiteSetting.default_email_digest_frequency.to_i <= 0
       self.email_digests = false
@@ -150,6 +150,7 @@ end
 #  email_in_reply_to             :boolean          default(TRUE), not null
 #  like_notification_frequency   :integer          default(1), not null
 #  include_tl0_in_digests        :boolean          default(FALSE)
+#  mailing_list_mode_frequency   :integer          default(0), not null
 #
 # Indexes
 #

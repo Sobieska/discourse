@@ -298,8 +298,6 @@ gl:
       title: "Usuarios"
       likes_given: "Dados"
       likes_received: "Recibidos"
-      topics_entered: "Introducidos"
-      topics_entered_long: "Temas introducidos"
       time_read: "Tempo de lectura"
       topic_count: "Temas"
       topic_count_long: "Temas creados"
@@ -456,7 +454,6 @@ gl:
       suspended_notice: "Este usuario está suspendido até o {{date}}."
       suspended_reason: "Razón:"
       github_profile: "Github"
-      mailing_list_mode: "Enviar un correo por cada nova publicación (a non ser que eu silencie o tema ou categoría)"
       watched_categories: "Visto"
       watched_categories_instructions: "Verás automaticamente todos os temas novos nestas categorías. Notificaránseche todas as novas publicacións e temas, e o número de novas publicacións aparecerá tamén preto do tema."
       tracked_categories: "Seguido"
@@ -499,10 +496,8 @@ gl:
         set_password: "Estabelecer o contrasinal"
       change_about:
         title: "Cambiar «Verbo de min»"
-        error: "Produciuse un erro ao cambiar este valor."
       change_username:
         title: "Cambiar o nome do usuario"
-        confirm: "Se cambias o nome de usuario, todas as citas anteriores das túas publicacións e as mencións ao teu @nome romperanse. Estás totalmente seguro?"
         taken: "Sentímolo pero este nome xa está en uso."
         error: "Produciuse un erro cambiando o teu nome de usuario."
         invalid: "Este usuario é incorrecto. Só pode contar números e letras."
@@ -586,7 +581,6 @@ gl:
         always: "sempre"
         never: "nunca"
       email_digests:
-        title: "Cando non veña por aquí, enviarme un compendio das novidade por correo-e:"
         every_30_minutes: "cada 30 minutos"
         every_hour: "cada hora"
         daily: "diariamente"
@@ -881,7 +875,6 @@ gl:
       link_description: "introducir a descrición da ligazón aquí"
       link_dialog_title: "Inserir hiperligazón"
       link_optional_text: "título opcional"
-      link_placeholder: "http://exemplo.com \"texto opcional\""
       quote_title: "Citación"
       quote_text: "Citación"
       code_title: "Texto preformatado"
@@ -991,7 +984,6 @@ gl:
       post_format: "#{{post_number}} de {{username}}"
       context:
         user: "Buscar publicacións de @{{username}}"
-        category: "Buscar na categoría \"{{category}}\""
         topic: "Buscar neste tema"
         private_messages: "Buscar mensaxes"
     hamburger_menu: "ir a outra lista de temas ou categoría"
@@ -1333,10 +1325,7 @@ gl:
         create: "Sentímolo pero produciuse un erro creando a publicación. Téntao de novo."
         edit: "Sentímolo pero produciuse un erro editando a publicación. Téntao de novo."
         upload: "Sentímolo pero produciuse un erro enviando a publicación. Téntao de novo."
-        attachment_too_large: "Sentímolo pero o ficheiro é demasiado grande (o tamaño máximo son {{max_size_kb}}kb)."
-        file_too_large: "Sentímolo pero o ficheiro é demasiado grande (o tamaño máximo son {{max_size_kb}}kb)"
         too_many_uploads: "Sentímolo pero só podes enviar un ficheiro de cada vez."
-        too_many_dragged_and_dropped_files: "Sentímolo pero só podes arrastrar e soltar até 10 ficheiros dunha vez."
         upload_not_authorized: "Sentímolo pero o ficheiro que tentas enviar non está autorizado (extensións autorizadas: {{authorized_extensions}})."
         image_upload_not_allowed_for_new_user: "Sentímolo pero os novos usuarios non poden subir imaxes."
         attachment_upload_not_allowed_for_new_user: "Sentímolo pero os novos usuarios non poden subir anexos."
@@ -1774,7 +1763,6 @@ gl:
           30_days_ago: "Hai 30 días"
           all: "Todo"
           view_table: "táboa"
-          view_chart: "gráfica de barras"
           refresh_report: "Actualiza informe"
           start_date: "Data de inicio"
           end_date: "Data de remate"
@@ -1909,14 +1897,6 @@ gl:
           backups: "Copias de seguranza"
           logs: "Rexistros"
         none: "Non hai copia de seguranza dispoñíbel"
-        read_only:
-          enable:
-            title: "Activar o modo de só-lectura"
-            label: "Activar modo de só-lectura"
-            confirm: "Confirmas a activación do modo de só-lectura?"
-          disable:
-            title: "Desactivar o modo de só-lectura"
-            label: "Desactivar modo de só-lectura"
         logs:
           none: "Aínda non hai rexistros..."
         columns:
@@ -2346,7 +2326,6 @@ gl:
         deactivate_explanation: "Un usuario desactivado debe revalidar o seu correo-e."
         suspended_explanation: "Un usuario suspendido non pode iniciar sesión."
         block_explanation: "Un usuario bloquedo non pode publicar nin iniciar temas."
-        stage_explanation: "Un usuario transitorio só pode publicar por correo electrónico en temas específicos."
         trust_level_change_failed: "Produciuse un problema cambiando o nivel de confianza do usuario."
         suspend_modal_title: "Suspender usuario"
         trust_level_2_users: "Usuarios con nivel 2 de confianza"

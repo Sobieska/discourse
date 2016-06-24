@@ -24,7 +24,6 @@ ar:
   loading: "يحمّل"
   powered_by_html: 'تدعمه <a href="http://www.discourse.org">دسكورس </a>، يفضّل عرضه وجافاسكرِبت مفعّل'
   log_in: "تسجيل الدخول"
-  purge_reason: "حُذف آليا باعتباره حسابا إما مهجورا أو غير منشّطا"
   disable_remote_images_download_reason: "عُطّل تنزيل الصور عن بعد بسبب نفاذ مساحة القرص الحرّة."
   anonymous: "مجهول"
   emails:
@@ -34,7 +33,6 @@ ar:
       errors:
         empty_email_error: "يحدث عندما يكون البريد المستلم فارغ"
         no_message_id_error: "يحدث عندما لا يحتوي البريد على  'Message-Id' في العنوان"
-        no_body_detected_error: "يحدث عندما لا نستطيع اقتباس المحتوى و لا يوجد مرفق ."
         inactive_user_error: "يحدث عندما يكون المرسل غير نشط "
         blocked_user_error: "يحدث عندما يكون المرسل محظور"
         bad_destination_address: "يحدع عندما لا يكون اي من عنوان البريد االكتروني في حقول  To/Cc/Bcc تتطابق مع كون البريد القادم"
@@ -196,7 +194,6 @@ ar:
   user_is_suspended: "ليس مسموحا للمستخدمين المعلّقة عضويتهم النشر."
   topic_not_found: "حدث خطب ما. قد يكون الموضوع أُغلق أو حُذف وأنت تشاهده؟"
   just_posted_that: "هذا مماثل لما شاركته مؤخرا"
-  has_already_been_used: "هو مستخدم بالفعل"
   invalid_characters: "يحتوي احرف غير صالحة "
   is_invalid: "غير صالح حاول ان تضع وصف اكثر"
   next_page: "الصفحة التالية ←"
@@ -216,6 +213,7 @@ ar:
     hot: "عناوين ساخنة"
     top: "أفضل المواضيع"
     posts: "اخر المشاركات "
+    private_posts: "الرسائل الخاصة الآخيرة"
   too_late_to_edit: "أُنشئ المنشور منذ فترة طويلة جدا، لذا تعديله أو حذفه لم يعد ممكنا."
   revert_version_same: "ألاصدار الحالي يتطابق مع نفس ألاصدار الذي تحاول استرجاعه ."
   excerpt_image: "صورة"
@@ -223,7 +221,6 @@ ar:
     delete_reason: "حذف عبر طابور مشاركة معتدل"
   groups:
     errors:
-      can_not_modify_automatic: "لا يمكنك تعديل مجموعة تلقائية"
       member_already_exist: " '%{username}' هو عضو في هذه المجموعة بالفعل."
       invalid_domain: "'%{domain}' ليس نطاقا صالحا."
       invalid_incoming_email: "'%{email_in}' ليس عنوان بريد الكتروني صالح ."
@@ -613,7 +610,6 @@ ar:
     continue_button: "تابع إلى %{site_name}"
     welcome_to: "مرحبا بك في %{site_name}!"
     approval_required: "يجب على المشرف أن يقبل حسابك الجديد قبل أن تستطيع الدخول لهذا المنتدى. سوف تتلقى بريد إلكتروني عندما يتم قبول حسابك."
-    missing_session: "يتعذّر علينا معرفة إن كان حسابك قد أُنشئ أم لا، من فضلك تحقّق من أن الكعكات/الكوكيز مفعّلة."
   post_action_types:
     off_topic:
       title: 'خارج الموضوع'
@@ -774,27 +770,19 @@ ar:
     page_view_anon_reqs:
       title: "مجهولون"
       xaxis: "يوم"
-      yaxis: "طلبات API مجهولة "
     page_view_logged_in_reqs:
       title: "مسجل دخول"
       xaxis: "يوم"
-      yaxis: "سجل طلبات API"
     page_view_crawler_reqs:
       title: "عناكب اﻹنترنت"
       xaxis: "يوم"
-      yaxis: "طلبات API من عناكب الإنترنت"
     page_view_total_reqs:
       title: "مجموع"
       xaxis: "يوم"
-      yaxis: "مجموع طلبات API"
     page_view_logged_in_mobile_reqs:
-      title: "سجل طلبات API"
       xaxis: "يوم"
-      yaxis: "سجل API لطلبات الهواتف  "
     page_view_anon_mobile_reqs:
-      title: "طلبات API مجهولة"
       xaxis: "اليوم"
-      yaxis: "طلبات API مجهولة الهواتف"
     http_background_reqs:
       title: "خلفية"
       xaxis: "اليوم"
@@ -897,8 +885,7 @@ ar:
     post_excerpt_maxlength: "الحد الأقصى لطول وظيفة مقتطف / ملخص."
     post_onebox_maxlength: "الحد الأقصى لطول مشاركة oneboxed Discourse بالأحرف."
     onebox_domains_whitelist: "قائمة بالمجالات للسماح روابط تفصيلي؛ وينبغي دعم هذه المجالات OpenGraph أو oEmbed. اختبار لهم في http://iframely.com/debug"
-    logo_url: "صورة الشعار في الجزء العلوي الأيسر من موقع الويب الخاص بك، يجب أن تكون على شكل مستطيل واسع. إذا كان سيتم إظهار غادر نص عنوان موقع على بياض."
-    digest_logo_url: "صورة الشعار بديلة تستخدم في الجزء العلوي من البريد الإلكتروني موقعك. يجب أن تكون على شكل مستطيل واسع. إذا كان سيتم استخدام ترك فارغا `logo_url`."
+    logo_url: "صورة الشعار في الجزء العلوي الأيسر من موقع الويب الخاص بك، يجب أن تكون على شكل مستطيل واسع. إذا ترك الحقل فارغا فسيتم استخدام اسم الموقع."
     logo_small_url: "صورة الشعار صغيرة في الجزء العلوي الأيسر من موقع الويب الخاص بك، يجب أن تكون على شكل مربع، وينظر عند التمرير لأسفل. وإذا ترك فارغا أن أظهرت الصورة الرمزية المنزل."
     favicon_url: "الأيقونة الخاصة بموقعك,  شاهد http://en.wikipedia.org/wiki/Favicon,  لتعمل بشكل صحيح ضمن CDN يجب ان تكون بصيغة png."
     mobile_logo_url: "صورة الشعار الثابتة ستظهر في الجزء العلوي الأيسر في نسخة الجوال من موقعك. يجب أن تكون مربعة. إذا تُركت فارغة، سيتم استخدام الـ `logo_url`. على سبيل المثال: http://example.com/uploads/default/logo.png"
@@ -906,20 +893,17 @@ ar:
     notification_email: "لمن:  يستخدم عنوان البريد الالكتروني عند  إرسال كل رسائل النظام الأساسي. المجال الخاص هنا يجب أن يكون SPF, DKIM وسجلات PTR عكسي تضبط بشكل صحيح لوصول البريد الالكتروني."
     email_custom_headers: "قائمة قناة محددة لرؤوس بريد إلكتروني مخصص."
     email_subject: "لتخصيص تنسيق عناوين رسائل البريد الالكتروني القياسية. انظر  https://meta.discourse.org/t/customize-subject-format-for-standard-emails/20801"
-    use_https: "يجب ان يكون رابط url كامل للموقع(Discourse.base_url) يكون http او  https؟ لا تشغل هذا الا اذا  تم ضبطه و يعمل!"
     summary_score_threshold: "الحد الأدنى للنقاط المطلوبة لتضمين مشاركة في \"تلخيص هذا الموضوع\""
     summary_posts_required: "الحد الأدنى للمشاركات في الموضوع قبل \"تلخيص هذا الموضوع\" مفعل."
     summary_likes_required: "الحد الأدنى للإعجابات في الموضوع قبل \"تلخيص هذا الموضوع\" مفعل."
     summary_percent_filter: "عندما يضغط المستخدم على \"تلخيص هذا الموضوع\"، يظهر أعلى % o المشاركات."
     summary_max_results: "الحد الأقصى للمشاركات العائدة بـ 'ملخص هذا الموضوع'"
-    enable_private_messages: "يسمح مستوى الثقة 1 (قابل للتغيير من خيار ادنى مستويات الثقة لارسال الرسائل ) للمستخدمين بإنشاء والرد على الرسائل"
     enable_long_polling: "ناقل الرسالة المستخدم للاشعارات يمكن أن يستخدم التصويت الطويل."
     long_polling_base_url: "قاعدة URL تستخدم للتصويت الطويل (عندما CDN يخدم المحتوى الديناميكي, تأكد لتعيين هذا لسحب الأصل) eg: http://origin.site.com"
     long_polling_interval: "المدة الزمنية التي سينتظرها الخادم قبل الرد على العملاء في حالة عدم وجود أية بيانات لارسالها (للأعضاء المسجلين فقط)"
     polling_interval: "عندما لا يكون التصويت طويلا، عدد المرات التي يجب تسجيل عملاء التصويت فيها بالملي ثانية."
     anon_polling_interval: "المرات التي يجب الاستعلام فيها عن العملاء المجهولين بالملي ثانية."
     background_polling_interval: "كم ينبغي أن يكون عدد مرات الاستعلام عن العملاء في المللي ثانية ( عندما يكون الاطار في الخلفية )"
-    flags_required_to_hide_post: "عدد التبليغات التي تسبب إخفاء المشاركة آليا وترسل PM للعضو (0 لتعطيلها)"
     cooldown_minutes_after_hiding_posts: "عدد الدقائق يجب على المستخدم الانتظار قبل أن يتمكنوا من تعديل موضوع مخفي عن طريق رفع الأعلام المجتمع"
     max_topics_in_first_day: "الحد الأقصى لعدد الموضوعات يسمح للمستخدم لإنشاء في يومهم الأول على الموقع"
     max_replies_in_first_day: "الحد الأقصى لعدد الردود يسمح للمستخدم لإنشاء في يومهم الأول على الموقع"
@@ -939,7 +923,6 @@ ar:
     ga_domain_name: "تحليلات Google (ga.js) تتعقب اسم المجال، مثال: mysite.com; انظر http://google.com/analytics"
     ga_universal_tracking_code: "تحليلات Google العالمية (analytics.js) تتعقب رمز الشيفرة، مثال: UA-12345678-9; انظر http://google.com/analytics"
     ga_universal_domain_name: "تحليلات Google العالمية (analytics.js) تتعقب اسم المجال، مثال: mysite.com; انظر http://google.com/analytics"
-    enable_escaped_fragments: "تراجع لـGoogle's Ajax-Crawling API إذا لم يكشف عن webcrawler. أنظر https://support.google.com/webmasters/answer/174992?hl=en"
     enable_noscript_support: "فعل دعم محرك بحث webcrawler عبر علامة غير نصية."
     allow_moderators_to_create_categories: "السماح للمشرفين إنشاء قسم جديد"
     cors_origins: "اسمح بالأصول للطلبات عبر المنشأ (CORS). كل أصل يجب أن يتضمن http:// أو https://. متغير env لـ DISCOURSE_ENABLE_CORS يجب أن يعين إلى true ليعمل CORS."
@@ -967,7 +950,6 @@ ar:
     allow_index_in_robots_txt: "تحديد في ملف robots.txt أن يسمح هذا الموقع ليتم فهرستها من قبل محركات البحث على شبكة الإنترنت."
     email_domains_blacklist: "قائمة pipe-delimited المجالات البريد الإلكتروني الذي لا يسمح للمستخدمين تسجيل حسابات مع. مثال: mailinator.com | trashmail.net"
     email_domains_whitelist: "قائمة pipe-delimited من مجالات البريد الإلكتروني التي يجب على المستخدمين تسجيل حسابات مع. تحذير: لن يسمح للمستخدمين مع مجالات البريد الإلكتروني الأخرى غير المذكورة هنا!"
-    forgot_password_strict: "لم يكن لإبلاغ المستخدمين من الوجود حساب عند استخدامهم الحوار كلمة المرور نسيت."
     log_out_strict: "عند تسجيل الخروج، تسجيل الخروج ALL جلسات للمستخدم على جميع الأجهزة"
     version_checks: "Ping ديسكورس مركزا لتحديثات الإصدار وإظهار الرسائل النسخة الجديدة على لوحة القيادة / مسؤول"
     new_version_emails: "إرسال بريد إلكتروني إلى عنوان contact_email عندما نسخة جديدة من ديسكورس هو متاح."
@@ -985,7 +967,6 @@ ar:
     block_common_passwords: "لا تسمح لكلمات المرور المسجلة في قائمة كلمات المرور الشائعةز"
     enable_sso: " اسمح تسجيل دخول واحد عبر موقع خارجي(تحذير :عنوان بريد المستخدم *يجب* ان يتم التحقق من صحته عبر الموقع الخارجي)"
     enable_sso_provider: "تنفيذ مزود بروتوكول Discourse SSO على نقطة نهاية /session/sso_provider, يتطلب sso_secret لتعينها"
-    sso_url: "نقطة نهاية URL الدخول الموحد"
     sso_secret: "السلسلة السرية استخدمت لتشفير مصادقة معلومات SSO, كن متأكداً أنها 10 حروف أو أكثر"
     sso_overrides_email: "يتجاوز البريد الاكتوني المحلي مع بريد موقع خارجي من حمولة SSO عند كل تسجيل دخول, ويمنع   التتغيرات المحلية. (تحذير: ممكن يحدث تعارض بسبب الاختلاف طول اسم المستخدم/المتطلبات)"
     sso_overrides_username: "يتجاوز \"اسم المستخدم المحلي\" مع \"اسم مستخدم موقع خارجي\" من حمولة SSO عند كل تسجيل دخول, ويمنع التغيرات المحلية. (تحذير: ممكن يحدث تعارض بسبب الاختلاف طول اسم المستخدم/المتطلبات)"
@@ -1113,7 +1094,6 @@ ar:
     faq_url: "إذا كانت لديك معلومات حول إضافة أخرى تريد استخدامها, فضلًا قم بتوفير العنوان كاملاً هنا."
     tos_url: "اذا كان لديك وثيقه شروط خدمه مستضيفها في مكان اخر و تريد استخدمها, وفر url الكامل هنا"
     privacy_policy_url: "اذا كان لديك وثيقه سياسه خصوصيه مستضيفها في مكان ما و نريد استخدمها. وفر url  الكامل هنا"
-    newuser_spam_host_threshold: "كم عدد مرات التي يستطيع فيها المستخدم نشر رابط في نفس المضيف  ضمن newuser_spam_host_posts  قبل ان  يعتبر غير هام"
     white_listed_spam_host_domains: "قائمة النطاقات المستثناة من اختبار مضيف البريد المزعج. لن يتم تقييد المستخدمين الجدد من إنشاء المشاركات مع الروابط إلى هذه النطاقات."
     staff_like_weight: "كم عدد مرات الترجيح الاضافيه لمنح اعجابات الطاقم "
     topic_view_duration_hours: "احسب عدد المواضيع التي تمت مشاهدتها مره واحده عبر ip/مستخدم كل N ساعات"
@@ -1137,7 +1117,6 @@ ar:
     short_email_length: "طول أقصر بريد الكتروني بـ Bytes."
     display_name_on_email_from: "أعرض الاسماء كاملة في البريد الالكتروني من المجال."
     unsubscribe_via_email: "أسمح للمستخدمين بالغاء الاشتراك لرسائل البريد الالكتروني عن طريق أرسال بريد الكتروني يحتوي على 'unsubscribe' في العنوان او محتوى البريد"
-    unsubscribe_via_email_footer: "أرفق رابط الغاء الاشتراك الى اخر البريد المرسل "
     delete_email_logs_after_days: "حذف سجل البريد بعد (ن) يوم. 0 لحفظ السجل للابد"
     pop3_polling_enabled: "تصويت عبرPOP3 لردود البريد الإلكتروني."
     pop3_polling_ssl: "أستخدم SSL عند الأتصال بمخدم POP3.(مُستحسن)"
@@ -1216,7 +1195,6 @@ ar:
     enforce_square_emoji: "أجبر نسبة جانب المربع لكل الرموز التعبيرية."
     approve_post_count: "عدد المنشورات للمستخدم الجديد او الاساسي يجب ان تتم الموافقه عليه "
     approve_unless_trust_level: "مشاركات للأعضاء أدنى من مستوى الثقة هذا يجب أن تتم الموافقة عليها."
-    notify_about_queued_posts_after: "اذا كان هناك مشاركات تنتظر ليتم معينتها لاكثر من هذه الساعات, سوف يتم ارسال بريد الكتروني لبريد الاتصال . اختر 0 لتعطيل هذه الرسائل"
     default_email_digest_frequency: "عدد المرات التي يتلقى الأعضاء فيها ملخص لبريدهم الإلكتروني إفتراضيا."
     default_email_private_messages: "أرسل بريد إلكتروني عندما يراسل شخص ما العضو إفتراضيا."
     default_email_direct: "ارسل بريد الكتروني عندما يقوم احدهم بالرد/الاقتباس الي/ذكر او دعوه مستخدم افتراضيا"
@@ -1478,20 +1456,6 @@ ar:
   system_messages:
     post_hidden:
       subject_template: "تم إخفاء المنشور بسبب حظر المجتمع"
-      text_body_template: |
-        مرحبا,
-
-        هذه رسالة تلقائية من %{site_name} لتحيطك علما بأن مشاركتك اختفت.
-
-        %{base_url}%{url}
-
-        %{flag_reason}
-
-        افراد المجتمع المتعددون بلغوا عن هذه المشاركة قبل اختفائها, لذا رجاء فكر كيف يمكنك تعديل مشاركتك لتغيير ملاحظاتهم. **يمكنك تعديل مشاركتك قبل %{edit_delay} دقائق, وسيتم تم إظهارها تلقائيا.**
-
-        أيضا, إذا اختفت المشاركة مرة ثانية, ستظل مخفية حتى يتم التعامل معها من قبل الموظفين وربما يكون هناك مزيد من العمل, بما في ذلك من الممكن أن يعلق حسابك.
-
-        لمزيد من الإرشادات، يرجى الرجوع لموقعنا[دليل المجتمع](%{base_url}/guidelines).
     welcome_user:
       subject_template: "مرحبا بك في %{site_name}!"
       text_body_template: |
@@ -1584,7 +1548,6 @@ ar:
       text_body_template: "نحن آسفون ، ولكن رسالة البريد الإلكتروني إلى %{destination} (titled %{former_title})  لا تعمل. \n\nلم نتمكن من العثور على أي محتوى في البريد الإلكتروني الخاص بك. **تأكد من الرد الخاص بك هو في الجزء العلوي من البريد الإلكتروني -- نحن لا يمكننا معالجة الردود في سطر .\n"
     email_reject_invalid_access:
       subject_template: "[%{site_name}] بريد الكتروني -- غير صالح"
-      text_body_template: "نحن آسفون ، ولكن رسالة البريد الإلكتروني إلى %{destination} (titled %{former_title})  لا تعمل. \n\nحسابك لا يمتلك الصلاحيات لنشر مواضيع جديدة في تلك الفئة. إذا كنت تعتقد أن هذا الخطأ، اتصل بالاعضاء  المشرفين.\n"
     email_reject_strangers_not_allowed:
       subject_template: "مشاكل البريد ألالكتروني [%{site_name}] -- دخول غير صالح"
     email_reject_invalid_post:
@@ -1597,34 +1560,14 @@ ar:
       subject_template: "[%{site_name}] بريد الكتروني -- موضوع غير موجود"
     email_reject_topic_closed:
       subject_template: "[%{site_name}] بريد الكتروني -- موضوع مغلق"
-      text_body_template: "نحن آسفون ، ولكن رسالة البريد الإلكتروني إلى %{destination} (titled %{former_title})  لا تعمل. \n\nالموضوع الذي تريد الرد عليه مغلق حاليا والتي لم تعد تقبل ردود. إذا كنت تعتقد أن هذا خطأ، اتصل أحد الأعضاء المشرفين.\n"
     email_reject_auto_generated:
       subject_template: "[%{site_name}] بريد الكتروني -- توليد رد آلي"
     email_error_notification:
       subject_template: "[%{site_name}] بريد الكتروني -- خطأ مصادقة POP"
-    too_many_spam_flags:
-      subject_template: "حساب جديد مقفول"
-      text_body_template: |
-        مرحبا,
-
-        هذه رساله اليه من %{site_name} لاعلاماك ان مشاركتك تم اخفاها اليا لانها كانت مؤشره من قبل المجتمع.
-         كجراء وقائي تم حظر حسابك من انشاء ردود جديده او مواضيع حتي يقوم اعضاء الطاقم بمراجعه حسابك.
-        للمعلومات الاضافيه.الرجاء مراجعه [قوانين مجتمعنا] (%{base_url}/guidelines).
-    blocked_by_staff:
-      subject_template: "الحساب مُعطل"
     user_automatically_blocked:
       subject_template: "العضو الجديد %{username} تم حجبه بسبب تبليغات عليه في المجتمع"
     spam_post_blocked:
       subject_template: "العضو الجديد %{username} تم حجب مشاركاته بسبب تكرار الروابط "
-    unblocked:
-      subject_template: "الحساب مُفعل "
-      text_body_template: |+
-        مرحبا,
-
-        هذه رساله اليه من %{site_name} لاعلامك انه قد تم فك حظر حسابك بعد مراجعه الطاقم
-
-        يمكنك الان انشاء ردود جديده و مواضيع مجددا.
-
     pending_users_reminder:
       subject_template:
         zero: "لا يوجد أعضاء تنتظر الموافقة."
@@ -1643,6 +1586,7 @@ ar:
   subject_pm: "[مسائًا]"
   user_notifications:
     previous_discussion: "الردود السابقة "
+    in_reply_to: "في رد لـ "
     unsubscribe:
       title: "غير مشترك "
       description: "لست مهتما في تلقي هذه الرسائل الالكترونيه؟ لا مشكله! اضغط تحت ليتم الغاء اشتركك فورا:"
@@ -1653,88 +1597,18 @@ ar:
       subject_template: "[%{site_name}] %{username} دعاك للرسالة '%{topic_title}'"
     user_replied:
       subject_template: "[%{site_name}] %{topic_title}"
-      text_body_template: |
-        %{header_instructions}
-
-        %{message}
-
-        %{context}
-
-        ---
-        %{respond_instructions}
-    user_replied_pm:
-      text_body_template: |
-        %{header_instructions}
-
-        %{message}
-
-        %{context}
-
-        ---
-        %{respond_instructions}
     user_quoted:
       subject_template: "[%{site_name}] %{topic_title}"
-      text_body_template: |
-        %{header_instructions}
-
-        %{message}
-
-        %{context}
-
-        ---
-        %{respond_instructions}
     user_mentioned:
       subject_template: "[%{site_name}] %{topic_title}"
-      text_body_template: |
-        %{header_instructions}
-
-        %{message}
-
-        %{context}
-
-        ---
-        %{respond_instructions}
     user_group_mentioned:
       subject_template: "[%{site_name}] %{topic_title}"
-      text_body_template: |
-        %{header_instructions}
-
-        %{message}
-
-        %{context}
-
-        ---
-        %{respond_instructions}
     user_posted:
       subject_template: "[%{site_name}] %{topic_title}"
-      text_body_template: |
-        %{header_instructions}
-
-        %{message}
-
-        %{context}
-
-        ---
-        %{respond_instructions}
     user_posted_pm:
       subject_template: "[%{site_name}] [مساءً] %{topic_title}"
-      text_body_template: |
-        %{header_instructions}
-
-        %{message}
-
-        %{context}
-
-        ---
-        %{respond_instructions}
     user_posted_pm_staged:
       subject_template: "%{optional_re}%{topic_title}"
-      text_body_template: |2
-
-        %{message}
-
-        ---
-        %{respond_instructions}
     digest:
       why: "ملخص المؤجز من %{site_link} منذ زيارتك الاخيره في  %{last_seen_at}"
       subject_template: "[%{site_name}] الخلاصة"
@@ -1775,6 +1649,12 @@ ar:
 
         انقر على الرابط التالي لاختيار كلمة مرور لحسابك الجديد:
         %{base_url}/users/password-reset/%{email_token}
+    confirm_new_email:
+      subject_template: "[%{site_name}] تأكيد عنوان بريدك الإلكتروني الجديد"
+    confirm_old_email:
+      subject_template: "[%{site_name}] تأكيد عنوان بريدك الإلكتروني الحالي"
+    notify_old_email:
+      subject_template: "[%{site_name}] عنوان بريدك الإلكتروني تم تغييره"
     signup_after_approval:
       subject_template: "قد وافقت على %{site_name}!"
       text_body_template: |
@@ -1806,7 +1686,7 @@ ar:
     recent_topics: "الأخيرة"
     see_more: "المزيد"
     search_title: "البحث في الموقع"
-    search_google: "جوجل"
+    search_google: "غوغل"
   login_required:
     welcome_message: |
       #[أهلاً بكم %{title}](#مرحبًا)
@@ -1826,9 +1706,6 @@ ar:
     images:
       too_large: "نعتذر، الصورة الذي تريد رفعها كبيرة جداً ( الحد الاقصى هو  %{max_size_kb} كيلوبايت )،يرجى اعادة تغيير حجمها ثم حاول مرة اخرى."
       size_not_found: "نعتذر، لكننا لا يمكن تحديد حجم الصورة. ربما صورتك تالفة؟"
-  flag_reason:
-    sockpuppet: "عضو جديد إنشاء موضوع , وعضو أخر جديد في نفس عنوان IP . شاهد  flag_sockpuppets إعداد الموقع"
-    spam_hosts: "حاول هذا العضو الجديد إنشاء مشاركات متعددة لها روابط بنفس المجال. شاهد newuser_spam_host_threshold إعداد الموقع."
   email_log:
     no_user: "لا يمكنك إيجاد عضو بواسطة id %{user_id}"
     anonymous_user: "المستخدم مجهول"
@@ -1998,6 +1875,66 @@ ar:
   privacy_topic:
     title: "سياسة الخصوصية"
     body: "<a name=\"collect\"></a>\n\n## [ما هي البيانات التي نقوم بجمعها؟](#جمع)\n\nنحن نجمع معلومات عنك عندما تسجل في موقعنا، وعندما تشارك في المنتدى عن طريق القراءة أو الكتابة، ونقوم بتقييم ما تم مشاركته هنا .\n\n\nيمكنك زيارة موقعنا بدون تسجيل، ولكن عند التسجيل في موقعنا، سيطلب منك ادخال اسمك وعنوان بريدك الالكتروني، وسيتم التحقق من بريدك الالكتروني بإرسال رسالة الى بريدك الالكتروني تحتوي على رابط خاص، عند الضغط على هذا الرابط، نحن سنعرف أنك مالك البريد الالكتروني المتحكم فيه.\n\nعندما تقوم بالتسجيل في موقعنا والنشر، سنقوم بتسجيل عنوان IP الذي نشرت منه، أيضا قد تحتفظ سجلات الخادم عناوين IP جميع الطلبات من الخادم.\n\n<a name=\"use\"></a>\n\n## [في ماذا نستخدم المعلومات الخاصة بك؟](#استخدام)\n\nيمكننا استخدام المعلومات التي نجمعها عنك بإحدى الطرق التالية:\n\n*  لتخصيص تجربتك و mdahs؛ المعلومات الخاصة بك تساعدنا على الاستجابة بشكل أفضل لاحتياجاتك الفردية.\n* لتحسين موقعنا و mdash ؛ نسعى باستمرار لتحسين ما يعرضه الموقع استنادًا الى المعلومات والتغذية الراجعة - الملاحظات - التي نتلقاها منك.\n* لتحسين خدمة العملاء و mdash ؛ المعلومات الخاصة بك تساعدنا على الاستجابة بشكل أكثر فعالية لطلبات الدعم وخدمة العملاء.\n* لإرسال رسائل البريد الالكتروني الدورية و mdash ؛ سنستخدم عنوان البريد الالكتروني الذي وفرته لنا لإرسال معلومات إليك، الاشعارات التي تطلبها حول التحديثات في المواضيع، أو الاستجابة لاسم المستخدم الخاص بك، كالرد على الاستفسارات، او الطلبات أو اسئلة اخرى.\n\n<a name=\"protect\"></a>\n\n## [كيف نقوم بحماية معلوماتك ؟](#حماية)\n\nنقوم بتطبيق مجموعة من الإجراءات الأمنية للمحافظة على أمن وسلامة معلوماتك الشخصية، عندما تقوم بإرسال أو إدخال أو الدخول لمعلوماتك الشخصية.\n\n<a name=\"data-retention\"></a>\n\n## [ما هي سياسة الاحتفاظ بالبيانات الخاصة بك ؟](#الاحتفاظ-بالبيانات)\n\nسوف نبذل جهونا بإخلاص للتالي :\n\n* الاحتفاظ بسجلات عناوين IP لجميع الطلبات لهذا الخادم لمدة لا تزيد عن 90 يومًا.\n* الاحتفاظ بعناوين IP الخاصة بالمستخدمين المسجلين ومنشوراتهم لمدة لا تزيد عن 5 سنوات.\n\n<a name=\"cookies\"></a>\n\n## [هل نستخدم الكعكات - cookies - ملفات تعريف الارتباط ؟ ](#كعكات)\n\nنعم، الكعكات هي عبارة عن ملفات صغيرة يقوم الموقع أو مزود الخدمة بنقلها الى القرص الصلب لحاسبك من خلال متصفحك (اذا سمحتم بذلك)، هذه الكعكات تعرف الموقع على متصفحك، فن كان لديك حساب مسجل، سيتم ربطه مع حسابك.\n\nنحن نستخدم ملفات تعريف الارتباط - cookies - لفهم وحفظ التفضيلات الخاصة بك للزيارات في المستقبل، وجمع البيانات العامة حول حركة المرور والتفاعل في الموقع حتى نتمكن من تقديم تجربة وأدوات افضل في المستقبل، نحن قد نتعاقد مع مقدمي خدمات من الطرف الثالث لمساعدتنا في تحسين فهمنا لزوار الموقع، مقدمي الخدمات لا يسمح لهم بإستخدام المعلومات التي تم جمعها نيابة عنا، إلّا لمساعدتنا في سلوكنا وتحسين أعمالنا.\n\n<a name=\"disclose\"></a>\n\n## [هل نقوم بالإفصاح عن أي معلومات لأطراف خارجية؟](#إفصاح)\n\nنحن لا نبيع، ولا نتاجر أو ننقل المعلومات الشخصية الى أطراف خارجية. وهذا لا يشمل الطرف الخاجية الموثوق بها والتي تساعد في تشغيل موقعنا، واجراء أعمالنا، أو تقديم الخدمات لكم، طالما أن تلك الأطراف موافقة للحفاظ على سرية المعلومات، يجوز لنا الافراج عن معوماتك الشخصية عندما نرى أنه هو المناسب للإمتثال للقانون، مع فرض سياسة موقعنا، أو حماية حقوقنا أو حقوق الآخرين، أو حقوق الملكية، أو السلامة. ومع ذلك، يمكننا تقديم معلومات الزائرين دون تحديد الهوية، الى أطراف أخرى للتسويق والاعلان، أو غيرها من الاستخدامات.\n\n<a name=\"third-party\"></a>\n\n## [روابط الطرف الثالث](#الطرف-الثالث)\n\nأحيانًا، نفترض، أنه عند وجود مواقع طرف ثالث تقجم خدمات أو منتجات على موقعنا، كان لدى مواقع الطرف الثالث هذه، سياسات خصوصية منفصلة ومستقلة، لن يكون لدينا أية مسؤولية عن محتوى وأنشطة هذه المواقع المرتبطة، ومع ذلك، نحن نسعى إلى حماية موقعنا وسلامته، ونرحب بأي ملاحظات حول هذه المواقع. \n\n<a name=\"coppa\"></a>\n\n## [الالتزام بقانون حماية خصوصية الأطفال على الانترنت ](#coppa)\n\nموقعنا والمنتجات والخدمات موجهه للأشخاص اللذين لا تقل أعمارهم عن 13 سنة، إذا كان هذا الخادم في الولايات المتحدة الأمريكية، من شروط COPPA\n ([Children's Online Privacy Protection Act](https://en.wikipedia.org/wiki/Children%27s_Online_Privacy_Protection_Act))\nعدم استخدم هذا الموقع.\n\n<a name=\"online\"></a>\n\n## [سياسة الخصوصية على الانترنت](#متصل)\n\nتنطبق سياسة الخصوصية على الانترنت فقط على المعلومات التي يتم جمعها من خلال موقعنا، ولاتنطبق على المعلومات التي يتم جمعها أثناء عدم الاتصال.\n\n<a name=\"consent\"></a>\n\n## [الموافقة](#الموافقة)\n\nبإستخدام موقعنا، أنت توافق على سياسة الخصوصية لموقعنا.\n\n<a name=\"changes\"></a>\n\n## [تغييرات على سياسة الخصوصية](#تغييرات)\n\nإذا قمنا بتغيير سياسة الخصوصية، سوف نقوم بنشر هذه التغييرات في هذه الصفحة.\n\nهذه الوثيقة هي نسخة من CC-BY-SA تم تحديثها في 31 مايو عام 2013م .\n"
+  badges:
+    editor:
+      name: محرر
+    basic_user:
+      name: بسيط
+    member:
+      name: عضو
+    regular:
+      name: منتظم
+    leader:
+      name: قائد
+    welcome:
+      name: مرحباً
+      description: استقبلت كـ
+    anniversary:
+      name: الذكرى السنوية
+    nice_post:
+      name: رد رائع
+    good_post:
+      name: رد حسن
+    great_post:
+      name: رد عظيم
+    nice_topic:
+      name: موضوع رائع
+    good_topic:
+      name: موضوع حسن
+    great_topic:
+      name: موضوع عظيم
+    first_like:
+      name: أول إعجاب
+    first_flag:
+      name: أول إبلاغ
+    promoter:
+      description: عضو غير صحيح
+    read_guidelines:
+      name: إقرأ القواعد العامة
+    reader:
+      name: قارئ
+    popular_link:
+      name: رابط شائع
+    hot_link:
+      name: رابط ساخن
+    famous_link:
+      name: رابط مشهور
+    appreciated:
+      name: مشكور
+    respected:
+      name: محترم
+    crazy_in_love:
+      name: مجنون واقع في حب
+    thank_you:
+      name: شكراً لك
+    gives_back:
+      name: أعده
+    empathetic:
+      description: لديه 500 إعجاب وأعطى 1000 إعجاب
+    first_emoji:
+      name: أول رمز تعبيري
+    first_mention:
+      name: أول إشارة
   admin_login:
     success: "البريد أُرسل"
     error: "خطأ!"
@@ -2008,6 +1945,8 @@ ar:
   performance_report:
     initial_post_raw: 'هذا الموضوع يحتوي على معلومات الاداء اليومي للموقع '
     initial_topic_title: التبليغ عن اداء الموقع
+  topic_invite:
+    user_exists: "آسف، ذلك المستخدم قد تمت دعوته من قبل. تستطيع فقط أن تدعوا عضواً لموضوعِ مرة واحدة."
   time:
     <<: *datetime_formats
   activemodel:

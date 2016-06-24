@@ -16,7 +16,7 @@ module Jobs
       users =
           User.activated.not_blocked.not_suspended.real
           .joins(:user_option)
-          .where(user_options: {mailing_list_mode: true})
+          .where(user_options: {mailing_list_mode: true, mailing_list_mode_frequency: 1})
           .where('NOT EXISTS(
                       SELECT 1
                       FROM topic_users tu
@@ -48,7 +48,11 @@ module Jobs
               )
             else
               message = UserNotifications.mailing_list_notify(user, post)
-              Email::Sender.new(message, :mailing_list, user).send if message
+              if message
+                EmailLog.unique_email_per_post(post, user) do
+                  Email::Sender.new(message, :mailing_list, user).send
+                end
+              end
             end
           rescue => e
             Discourse.handle_job_exception(e, error_context(args, "Sending post to mailing list subscribers", { user_id: user.id, user_email: user.email }))

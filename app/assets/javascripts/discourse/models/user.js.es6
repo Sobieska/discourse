@@ -94,6 +94,8 @@ const User = RestModel.extend({
 
   mutedTopicsPath: url('/latest?state=muted'),
 
+  watchingTopicsPath: url('/latest?state=watching'),
+
   @computed("username")
   username_lower(username) {
     return username.toLowerCase();
@@ -136,7 +138,7 @@ const User = RestModel.extend({
   },
 
   copy() {
-    return Discourse.User.create(this.getProperties(Ember.keys(this)));
+    return Discourse.User.create(this.getProperties(Object.keys(this)));
   },
 
   save() {
@@ -155,6 +157,7 @@ const User = RestModel.extend({
 
     [       'email_always',
             'mailing_list_mode',
+            'mailing_list_mode_frequency',
             'external_links_in_new_tab',
             'email_digests',
             'email_direct',
@@ -229,7 +232,7 @@ const User = RestModel.extend({
            ua.action_type === UserAction.TYPES.topics;
   },
 
-  @computed("groups.@each")
+  @computed("groups.[]")
   displayGroups() {
     const groups = this.get('groups');
     const filtered = groups.filter(group => {
@@ -320,10 +323,10 @@ const User = RestModel.extend({
            Discourse.SiteSettings['newuser_max_' + type + 's'] > 0;
   },
 
-  createInvite(email, group_names) {
+  createInvite(email, group_names, custom_message) {
     return Discourse.ajax('/invites', {
       type: 'POST',
-      data: { email, group_names }
+      data: { email, group_names, custom_message }
     });
   },
 
@@ -390,17 +393,14 @@ const User = RestModel.extend({
   summary() {
     return Discourse.ajax(`/users/${this.get("username_lower")}/summary.json`)
            .then(json => {
-              const topicMap = {};
-
-              json.topics.forEach(t => {
-                topicMap[t.id] = Topic.create(t);
-              });
-
-              const badgeMap = {};
-              Badge.createFromJson(json).forEach(b => {
-                badgeMap[b.id] = b;
-              });
               const summary = json["user_summary"];
+              const topicMap = {};
+              const badgeMap = {};
+
+              json.topics.forEach(t => topicMap[t.id] = Topic.create(t));
+              Badge.createFromJson(json).forEach(b => badgeMap[b.id] = b );
+
+              summary.topics = summary.topic_ids.map(id => topicMap[id]);
 
               summary.replies.forEach(r => {
                 r.topic = topicMap[r.topic_id];
@@ -408,7 +408,10 @@ const User = RestModel.extend({
                 r.createdAt = new Date(r.created_at);
               });
 
-              summary.topics = summary.topic_ids.map(id => topicMap[id]);
+              summary.links.forEach(l => {
+                l.topic = topicMap[l.topic_id];
+                l.post_url = l.topic.urlForPostNumber(l.post_number);
+              });
 
               if (summary.badges) {
                 summary.badges = summary.badges.map(ub => {
@@ -417,6 +420,7 @@ const User = RestModel.extend({
                   return badge;
                 });
               }
+
               return summary;
            });
   }
